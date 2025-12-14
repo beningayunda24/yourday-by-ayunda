@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="YourDay by Ayunda - Aplikasi jurnal pribadi untuk mencatat hari-harimu dengan penuh makna">
+    <title>YourDay by Ayunda</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+</head>
+<body class="app-page">
+    <div class="container">
+        <header>
+            <div class="app-logo">
+                <div class="app-logo-text">
+                    <h1>YourDay</h1>
+                    <p class="subtitle">A safe space for your everyday thoughts.</p>
+                </div>
+            </div>
+            
+            <button class="moon-button" id="moon-button" title="Toggle Dark Mode" aria-label="Alihkan mode terang/gelap">
+                <i class="fas fa-moon" aria-hidden="true"></i>
+            </button>
+        </header>
+        
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-value" id="total-entries">0</div>
+                <div class="stat-label">Total Journal</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="today-entries">0</div>
+                <div class="stat-label">Hari Ini</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value" id="avg-mood">😊</div>
+                <div class="stat-label">Rata-rata Mood</div>
+            </div>
+        </div>
+
+        <main>
+            <div class="left-column">
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-edit" aria-hidden="true"></i> Tambah/Edit Journal</h2>
+                    <form id="entry-form">
+                        <div class="form-group">
+                            <label for="entry-date">Tanggal</label>
+                            <input type="date" id="entry-date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="entry-title">Judul</label>
+                            <input type="text" id="entry-title" placeholder="Tentang hari ini" required maxlength="50">
+                        </div>
+                        
+                        <div class="form-group">
+                                <label for="entry-title">Mood Hari Ini</label>
+                                <div class="mood-selector">
+                                    <div class="mood-option" data-mood="😊" role="button" tabindex="0">
+                                        <div class="mood-emoji">😊</div>
+                                        <div class="mood-label">Senang</div>
+                                    </div>
+                                    <div class="mood-option" data-mood="😐" role="button" tabindex="0">
+                                        <div class="mood-emoji">😐</div>
+                                        <div class="mood-label">Biasa</div>
+                                    </div>
+                                    <div class="mood-option" data-mood="😔" role="button" tabindex="0">
+                                        <div class="mood-emoji">😔</div>
+                                        <div class="mood-label">Sedih</div>
+                                    </div>
+                                    <div class="mood-option" data-mood="😡" role="button" tabindex="0">
+                                        <div class="mood-emoji">😡</div>
+                                        <div class="mood-label">Kesal</div>
+                                    </div>
+                                    <div class="mood-option" data-mood="😴" role="button" tabindex="0">
+                                        <div class="mood-emoji">😴</div>
+                                        <div class="mood-label">Lelah</div>
+                                    </div>
+                                </div>
+                                <input type="hidden" id="entry-mood" value="😊" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="entry-tags">Topik (pisahkan dengan koma)</label>
+                            <input type="text" id="entry-tags" placeholder="contoh: kerja, olahraga, keluarga">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="entry-content">Cerita Hari Ini</label>
+                            <textarea id="entry-content" placeholder="Bagaimana harimu hari ini? Ceritakan pengalaman, perasaan, atau pencapaianmu..." required maxlength="1000"></textarea>
+                        </div>
+                        
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary" id="submit-btn">
+                                <i class="fas fa-save" aria-hidden="true"></i> Simpan Journal
+                            </button>
+                            <button type="button" class="btn btn-secondary" id="cancel-btn" style="display:none;">
+                                <i class="fas fa-times" aria-hidden="true"></i> Batal Edit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title"><i class="fas fa-lightbulb" aria-hidden="true"></i> Daily Reminder</h2>
+                    <div id="daily-tip">
+                        <p>💡 Setiap hari membawa cerita yang layak dicatat, sekecil apapun itu.
+                            Catatan kecil hari ini bisa menjadi jejak berharga di kemudian hari.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-column">
+                <div class="card">
+                    <div class="card-title">
+                        <i class="fas fa-book-open" aria-hidden="true"></i> Journal Harian
+                        <div class="filter-options" style="margin-left: auto;">
+                            <button class="filter-btn active" data-filter="all">Semua</button>
+                            <button class="filter-btn" data-filter="today">Hari Ini</button>
+                            <button class="filter-btn" data-filter="week">Minggu Ini</button>
+                        </div>
+                    </div>
+                    
+                    <div id="entries-container">
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer>
+            <p>© 2025 YourDay by Ayunda. Write your day and feel evey moment.</p>
+            <a href="index.html" class="back-to-landing" title="Kembali ke halaman utama">← Kembali ke Halaman Utama</a>
+        </footer>
+    </div>
+
+    <!-- Modal Konfirmasi Hapus -->
+    <div id="delete-modal" class="modal" role="dialog" aria-labelledby="modal-title" style="display: none;">
+        <div class="modal-content">
+            <button class="modal-close" id="close-modal" aria-label="Tutup dialog">&times;</button>
+            <h2 class="card-title" id="modal-title">
+                <i class="fas fa-exclamation-triangle" aria-hidden="true"></i> Konfirmasi Hapus
+            </h2>
+            <p>Apakah Anda yakin ingin menghapus journal ini? Tindakan ini tidak dapat dibatalkan.</p>
+            <div class="btn-group" style="margin-top: 30px;">
+                <button class="btn btn-secondary" id="cancel-delete">Batal</button>
+                <button class="btn btn-danger" id="confirm-delete">
+                    <i class="fas fa-trash" aria-hidden="true"></i> Hapus
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
